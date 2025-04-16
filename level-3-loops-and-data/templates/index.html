@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { border-collapse: collapse; width: 50%; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Special?</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.role }}</td>
+            <td>
+                {% if user.role == 'Admin' %}
+                    ⭐
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4">No users found.</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p>Total Users: {{ users | length }}</p> 
+    <p>Total Admins: {{ users | selectattr('role', 'equalto', 'Admin') | list | length }}</p>
+    <p>Total Editor: {{ users | selectattr('role', 'equalto', 'Editor') | list | length }}</p>
+    <p>Total Viewer: {{ users | selectattr('role', 'equalto', 'Viewer') | list | length }}</p>
+    
+</body>
+</html>
